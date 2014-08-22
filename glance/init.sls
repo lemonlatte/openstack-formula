@@ -54,7 +54,7 @@ glance_setup:
     - name: python setup.py install
     - cwd: /opt/openstack/glance
     - require:
-      - sls: prerequisites
+      - sls: openstack.prerequisites
       - git: glance_repo
   file.directory:
     - name: /var/log/glance

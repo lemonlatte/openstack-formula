@@ -1,6 +1,6 @@
 include:
   - openstack.nova
-  - prerequisites
+  - openstack.prerequisites
 
 nova-compute-prerequisites:
   pkg.installed:

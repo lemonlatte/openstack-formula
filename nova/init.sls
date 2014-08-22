@@ -85,7 +85,7 @@ nova_setup:
     - name: python setup.py install
     - cwd: /opt/openstack/nova
     - require:
-      - sls: prerequisites
+      - sls: openstack.prerequisites
       - git: nova_repo
   file.directory:
     - name: /var/log/nova

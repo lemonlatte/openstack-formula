@@ -51,7 +51,7 @@ keystone_setup:
     - name: python setup.py install
     - cwd: /opt/openstack/keystone
     - require:
-      - sls: prerequisites
+      - sls: openstack.prerequisites
       - git: keystone_repo
       - file: keystone_setup
   file.directory:
@@ -69,7 +69,7 @@ keystonemiddleware_setup:
     - name: python setup.py install
     - cwd: /opt/openstack/keystonemiddleware
     - require:
-      - sls: prerequisites
+      - sls: openstack.prerequisites
       - git: keystonemiddleware_repo
 
 keystone_config:

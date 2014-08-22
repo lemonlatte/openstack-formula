@@ -56,7 +56,7 @@ cinder_setup:
     - name: python setup.py install
     - cwd: /opt/openstack/cinder
     - require:
-      - sls: prerequisites
+      - sls: openstack.prerequisites
       - git: cinder_repo
   file.directory:
     - name: /var/log/cinder

@@ -84,7 +84,7 @@ neutron_setup:
     - name: python setup.py install
     - cwd: /opt/openstack/neutron
     - require:
-      - sls: prerequisites
+      - sls: openstack.prerequisites
       - git: neutron_repo
       - file: /var/lib/neutron
       - file: /var/log/neutron

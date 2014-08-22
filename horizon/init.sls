@@ -13,7 +13,7 @@ django_openstack_auth_setup:
     - name: python setup.py install
     - cwd: /opt/openstack/django_openstack_auth
     - require:
-      - sls: prerequisites
+      - sls: openstack.prerequisites
       - git: django_openstack_auth_repo
 
 horizon_repo:

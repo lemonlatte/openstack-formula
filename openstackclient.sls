@@ -14,7 +14,7 @@ keystoneclient_setup:
     - name: python setup.py install
     - cwd: /opt/openstack/python-keystoneclient
     - require:
-      - sls: prerequisites
+      - sls: openstack.prerequisites
       - git: keystoneclient_repo
 
 novaclient_repo:
@@ -30,7 +30,7 @@ novaclient_setup:
     - name: python setup.py install
     - cwd: /opt/openstack/python-novaclient
     - require:
-      - sls: prerequisites
+      - sls: openstack.prerequisites
       - git: novaclient_repo
 
 neutronclient_repo:
@@ -61,7 +61,7 @@ glanceclient_setup:
     - name: python setup.py install
     - cwd: /opt/openstack/python-glanceclient
     - require:
-      - sls: prerequisites
+      - sls: openstack.prerequisites
       - git: glanceclient_repo
 
 cinderclient_repo:
@@ -77,7 +77,7 @@ cinderclient_setup:
     - name: python setup.py install
     - cwd: /opt/openstack/python-cinderclient
     - require:
-      - sls: prerequisites
+      - sls: openstack.prerequisites
       - git: cinderclient_repo
 
 openstackclient_repo:
@@ -93,7 +93,7 @@ openstackclient_setup:
     - name: python setup.py install
     - cwd: /opt/openstack/python-openstackclient
     - require:
-      - sls: prerequisites
+      - sls: openstack.prerequisites
       - git: openstackclient_repo
       - cmd: cinderclient_setup
       - cmd: glanceclient_setup
