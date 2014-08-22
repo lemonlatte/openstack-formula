@@ -13,6 +13,12 @@ done
 /usr/local/bin/openstack project create --description="Admin Tenant" admin
 /usr/local/bin/openstack role add --user=admin --project=admin admin
 
+/usr/local/bin/openstack user create --password={{pillar["admin_passwd"]}} --email={{pillar["admin_email"]}} demo
+/usr/local/bin/openstack role create __member__
+/usr/local/bin/openstack project create --description="demo Tenant" demo
+/usr/local/bin/openstack role add --user=admin --project=demo __member__
+/usr/local/bin/openstack role add --user=demo --project=demo __member__
+
 /usr/local/bin/openstack project create --description="Service Tenant" service
 
 /usr/local/bin/openstack service create --name=keystone identity

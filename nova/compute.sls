@@ -9,12 +9,14 @@ nova-compute-prerequisites:
       - python-libvirt
       - libvirt-bin
 
-libvirtd:
-  group.present:
+nova-compute_user:
+  user.present:
+    - name: nova
+    - groups:
+      - nova
+      - libvirtd
     - require:
       - pkg: nova-compute-prerequisites
-    - addusers:
-      - nova
 
 nova-compute:
   supervisord:
