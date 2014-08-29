@@ -5,6 +5,7 @@ include:
   - openstack.nova
   - openstack.neutron
   - openstack.cinder
+  - openstack.ceilometer
 
 vagrant_user:
   user.present:

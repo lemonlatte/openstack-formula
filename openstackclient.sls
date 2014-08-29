@@ -80,6 +80,22 @@ cinderclient_setup:
       - sls: openstack.prerequisites
       - git: cinderclient_repo
 
+ceilometerclient_repo:
+  git.latest:
+    - name: https://github.com/openstack/python-ceilometerclient.git
+    # - rev: stable/icehouse
+    - target: /opt/openstack/python-ceilometerclient
+    - require:
+      - pkg: git
+
+ceilometerclient_setup:
+  cmd.run:
+    - name: python setup.py install
+    - cwd: /opt/openstack/python-ceilometerclient
+    - require:
+      - sls: openstack.prerequisites
+      - git: ceilometerclient_repo
+
 openstackclient_repo:
   git.latest:
     - name: https://github.com/openstack/python-openstackclient.git
