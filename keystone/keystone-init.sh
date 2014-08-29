@@ -21,8 +21,11 @@ done
 
 /usr/local/bin/openstack project create --description="Service Tenant" service
 
-/usr/local/bin/openstack service create --name=keystone identity
-
-/usr/local/bin/openstack endpoint create identity public http://controller:5000/v3
-/usr/local/bin/openstack endpoint create identity internal http://controller:5000/v3
-/usr/local/bin/openstack endpoint create identity admin http://controller:35357/v3
+if ! /usr/local/bin/openstack service show identity; then
+    # Add Service
+    /usr/local/bin/openstack service create --name=keystone identity
+    # Add Endpoints
+    /usr/local/bin/openstack endpoint create identity public http://controller:5000/v3
+    /usr/local/bin/openstack endpoint create identity internal http://controller:5000/v3
+    /usr/local/bin/openstack endpoint create identity admin http://controller:35357/v3
+fi
