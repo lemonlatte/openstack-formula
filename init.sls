@@ -16,7 +16,7 @@ system-openrc.sh:
   file.managed:
     - name: /home/vagrant/system-openrc.sh
     - template: jinja
-    - source: salt://controller/templates/system-openrc.sh
+    - source: salt://openstack/files/system-openrc.sh
     - user: vagrant
     - require:
       - user: vagrant_user
@@ -25,7 +25,7 @@ admin-openrc.sh:
   file.managed:
     - name: /home/vagrant/admin-openrc.sh
     - template: jinja
-    - source: salt://controller/templates/admin-openrc.sh
+    - source: salt://openstack/files/admin-openrc.sh
     - user: vagrant
     - require:
       - user: vagrant_user
