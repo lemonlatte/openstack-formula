@@ -25,7 +25,6 @@ nova-compute:
       - service: supervisor
       - file: /etc/supervisor/conf.d/nova.conf
       - pkg: nova-compute-prerequisites
-      - group: libvirtd
     - watch:
       - file: nova_config
       - file: nova-compute

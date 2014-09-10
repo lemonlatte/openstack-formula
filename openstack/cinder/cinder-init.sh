@@ -15,7 +15,6 @@ fi
 if ! /usr/local/bin/openstack service show volumev2; then
     # Add Service
     /usr/local/bin/openstack service create --name=cinderv2 volumev2
-    if ! /usr/local/bin/openstack service show volumev2; then
     # Add Endpoints
     /usr/local/bin/openstack endpoint create volumev2 public http://controller:8776/v2/%\(tenant_id\)s
     /usr/local/bin/openstack endpoint create volumev2 internal http://controller:8776/v2/%\(tenant_id\)s

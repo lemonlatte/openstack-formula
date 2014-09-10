@@ -1,0 +1,21 @@
+
+my_ip: 192.168.1.167
+eth-ex: eth0
+
+admin_token: 3c85f97b8124f973894f
+admin_passwd: qwert1234
+admin_email: lemonlatte@gmail.com
+rabbitmq_passwd: qwert1234
+nova_passwd: qwert1234
+glance_passwd: qwert1234
+neutron_passwd: qwert1234
+cinder_passwd: qwert1234
+ceilometer_passwd: qwert1234
+
+openstack_rev: stable/icehouse
+
+keystone:
+  mysql:
+    dbname: keystone
+    username: keystone
+    password: keystone
