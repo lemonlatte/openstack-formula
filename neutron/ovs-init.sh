@@ -8,8 +8,10 @@ ovs-vsctl add-br br-ex
 # Enable external network access under nested Open vSwitch
 ifconfig br-ex promisc up
 # Bind em1 to the external bridge
-ovs-vsctl add-port br-ex em1
+ovs-vsctl add-port br-ex {{ pillar["eth-ex"] }}
 # Get ip address from dhcp server
 dhclient br-ex
 # clean ip of em1
-ifconfig em1 0.0.0.0
+ifconfig {{ pillar["eth-ex"] }} 0.0.0.0
+# Restart network
+service networking restart

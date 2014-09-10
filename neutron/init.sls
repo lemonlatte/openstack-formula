@@ -94,11 +94,20 @@ openvswitch_setup:
     - names:
       - openvswitch-switch
 
+ovs_network_config:
+  file.managed:
+    - name: /etc/network/interfaces
+    - source: salt://openstack/files/network-interfaces
+    - file_mode: 644
+    - template: jinja
+
 ovs_configuration:
   cmd.script:
     - name: salt://openstack/neutron/ovs-init.sh
+    - template: jinja
     - require:
       - pkg: openvswitch_setup
+      - file: ovs_network_config
 
 neutron_config:
   file.recurse:
@@ -112,7 +121,6 @@ neutron_config:
     - include_empty: True
     - require:
       - user: neutron_user
-
 
 /etc/supervisor/conf.d/neutron.conf:
   file.managed:
