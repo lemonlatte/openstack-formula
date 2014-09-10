@@ -16,7 +16,7 @@ mysql-server:
       - libmysqlclient-dev
   file.managed:
     - name: /etc/mysql/my.cnf
-    - source: salt://files/my.cnf
+    - source: salt://openstack/files/my.cnf
     - mode: 644
     - require:
       - pkg: mysql-server
