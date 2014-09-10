@@ -8,6 +8,12 @@ include:
 #       - libpq-dev
 #       - python-tox
 
+spice-prerequisites:
+  pkg.installed:
+    - names:
+      - libspice-server-dev
+      - spice-html5
+
 nova_repo:
   git.latest:
     - name: https://github.com/openstack/nova.git
@@ -16,12 +22,12 @@ nova_repo:
     - require:
       - pkg: git
 
-novnc_repo:
-  git.latest:
-    - name: https://github.com/kanaka/noVNC.git
-    - target: /opt/openstack/novnc
-    - require:
-      - pkg: git
+# novnc_repo:
+#   git.latest:
+#     - name: https://github.com/kanaka/noVNC.git
+#     - target: /opt/openstack/novnc
+#     - require:
+#       - pkg: git
 
 nova_user:
   user.present:
@@ -183,12 +189,23 @@ nova-conductor:
     - watch:
       - file: nova_config
 
-nova-novncproxy:
+
+nova-spicehtml5proxy:
   supervisord:
     - running
     - require:
       - service: supervisor
       - file: /etc/supervisor/conf.d/nova.conf
-      - git: novnc_repo
+      - pkg: spice-prerequisites
     - watch:
       - file: nova_config
+
+# nova-novncproxy:
+#   supervisord:
+#     - running
+#     - require:
+#       - service: supervisor
+#       - file: /etc/supervisor/conf.d/nova.conf
+#       - git: novnc_repo
+#     - watch:
+#       - file: nova_config
