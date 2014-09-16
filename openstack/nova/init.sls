@@ -17,7 +17,7 @@ spice-prerequisites:
 nova_repo:
   git.latest:
     - name: https://github.com/openstack/nova.git
-    - rev: stable/icehouse
+    - rev: {{ pillar["openstack_rev"] }}
     - target: /opt/openstack/nova
     - require:
       - pkg: git

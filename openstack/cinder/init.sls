@@ -7,7 +7,7 @@ lvm2:
 cinder_repo:
   git.latest:
     - name: https://github.com/openstack/cinder.git
-    - rev: stable/icehouse
+    - rev: {{ pillar["openstack_rev"] }}
     - target: /opt/openstack/cinder
     - require:
       - pkg: git

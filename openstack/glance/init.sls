@@ -4,7 +4,7 @@ include:
 glance_repo:
   git.latest:
     - name: https://github.com/openstack/glance.git
-    - rev: stable/icehouse
+    - rev: {{ pillar["openstack_rev"] }}
     - target: /opt/openstack/glance
     - require:
       - pkg: git

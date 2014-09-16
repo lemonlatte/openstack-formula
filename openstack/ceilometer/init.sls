@@ -3,7 +3,7 @@
 ceilometer_repo:
   git.latest:
     - name: https://github.com/openstack/ceilometer.git
-    - rev: stable/icehouse
+    - rev: {{ pillar["openstack_rev"] }}
     - target: /opt/openstack/ceilometer
     - require:
       - pkg: git

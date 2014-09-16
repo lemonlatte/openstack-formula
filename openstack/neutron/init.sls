@@ -16,7 +16,7 @@ net.ipv4.conf.default.rp_filter:
 neutron_repo:
   git.latest:
     - name: https://github.com/openstack/neutron.git
-    - rev: stable/icehouse
+    - rev: {{ pillar["openstack_rev"] }}
     - target: /opt/openstack/neutron
     - require:
       - pkg: git

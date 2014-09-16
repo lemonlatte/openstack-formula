@@ -4,7 +4,7 @@ include:
 keystone_repo:
   git.latest:
     - name: https://github.com/openstack/keystone.git
-    - rev: stable/icehouse
+    - rev: {{ pillar["openstack_rev"] }}
     - target: /opt/openstack/keystone
     - require:
       - pkg: git
