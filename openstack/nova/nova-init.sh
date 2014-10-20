@@ -1,13 +1,12 @@
 #!/bin/sh
 
-/usr/local/bin/openstack user create --password={{ pillar["nova_passwd"] }} nova
-/usr/local/bin/openstack role add --user=nova --project=service admin
+keystone user-create --name nova --pass {{ pillar["nova_passwd"] }}
+keystone user-role-add --user nova --tenant service --role admin
 
-if ! /usr/local/bin/openstack service show compute; then
-    # Add Service
-    /usr/local/bin/openstack service create --name=nova compute
-    # Add Endpoints
-    /usr/local/bin/openstack endpoint create compute public http://controller:8774/v2/%\(tenant_id\)s
-    /usr/local/bin/openstack endpoint create compute internal http://controller:8774/v2/%\(tenant_id\)s
-    /usr/local/bin/openstack endpoint create compute admin http://controller:8774/v2/%\(tenant_id\)s
-fi
+keystone service-create --name nova --type compute --description "OpenStack Compute"
+keystone endpoint-create \
+  --service-id $(keystone service-list | awk '/ compute / {print $2}') \
+  --publicurl http://controller:8774/v2/%\(tenant_id\)s \
+  --internalurl http://controller:8774/v2/%\(tenant_id\)s \
+  --adminurl http://controller:8774/v2/%\(tenant_id\)s \
+  --region regionOne

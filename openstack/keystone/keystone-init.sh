@@ -8,24 +8,19 @@ while [ $? -ne 0 ] && [ $COUNTER -gt 0 ]; do
     nc -w1 controller 5000
 done
 
-/usr/local/bin/openstack user create --password={{pillar["admin_passwd"]}} --email={{pillar["admin_email"]}} admin
-/usr/local/bin/openstack role create admin
-/usr/local/bin/openstack project create --description="Admin Tenant" admin
-/usr/local/bin/openstack role add --user=admin --project=admin admin
-
-/usr/local/bin/openstack user create --password={{pillar["admin_passwd"]}} --email={{pillar["admin_email"]}} demo
-/usr/local/bin/openstack role create __member__
-/usr/local/bin/openstack project create --description="demo Tenant" demo
-/usr/local/bin/openstack role add --user=admin --project=demo __member__
-/usr/local/bin/openstack role add --user=demo --project=demo __member__
-
-/usr/local/bin/openstack project create --description="Service Tenant" service
-
-if ! /usr/local/bin/openstack service show identity; then
-    # Add Service
-    /usr/local/bin/openstack service create --name=keystone identity
-    # Add Endpoints
-    /usr/local/bin/openstack endpoint create identity public http://controller:5000/v3
-    /usr/local/bin/openstack endpoint create identity internal http://controller:5000/v3
-    /usr/local/bin/openstack endpoint create identity admin http://controller:35357/v3
-fi
+keystone tenant-create --name admin --description "Admin Tenant"
+keystone user-create --name admin --pass {{ pillar["admin_passwd"] }}
+keystone role-create --name admin
+keystone user-role-add --tenant admin --user admin --role admin
+keystone role-create --name _member_
+keystone user-role-add --tenant admin --user admin --role _member_
+keystone tenant-create --name demo --description "Demo Tenant"
+keystone user-create --name demo --pass {{ pillar["admin_passwd"] }} --email EMAIL_ADDRESS
+keystone user-role-add --tenant demo --user demo --role _member_
+keystone tenant-create --name service --description "Service Tenant"
+keystone service-create --name keystone --type identity   --description "OpenStack Identity"
+keystone endpoint-create \
+  --service-id $(keystone service-list | awk '/ identity / {print $2}') \
+  --publicurl http://controller:5000/v3 \
+  --internalurl http://controller:5000/v3 \
+  --adminurl http://controller:35357/v3 --region regionOne

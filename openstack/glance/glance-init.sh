@@ -1,13 +1,14 @@
 #!/bin/sh
 
-/usr/local/bin/openstack user create --password={{ pillar["glance_passwd"] }} glance
-/usr/local/bin/openstack role add --user=glance --project=service admin
+keystone user-create --name glance --pass {{ pillar["glance_passwd"] }}
+keystone user-role-add --user glance --tenant service --role admin
 
-if ! /usr/local/bin/openstack service show image; then
-    # Add Service
-    /usr/local/bin/openstack service create --name=glance image
-    # Add Endpoints
-    /usr/local/bin/openstack endpoint create image public http://controller:9292
-    /usr/local/bin/openstack endpoint create image internal http://controller:9292
-    /usr/local/bin/openstack endpoint create image admin http://controller:9292
-fi
+keystone service-create --name glance --type image \
+  --description "OpenStack Image Service"
+
+keystone endpoint-create \
+  --service-id $(keystone service-list | awk '/ image / {print $2}') \
+  --publicurl http://controller:9292 \
+  --internalurl http://controller:9292 \
+  --adminurl http://controller:9292 \
+  --region regionOne

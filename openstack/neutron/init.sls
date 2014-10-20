@@ -89,6 +89,17 @@ neutron_setup:
       - file: /var/lib/neutron
       - file: /var/log/neutron
 
+neutron_syncdb:
+  cmd.run:
+    - name: |
+        neutron-db-manage --config-file /etc/neutron/neutron.conf \
+        --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade juno
+    - require:
+      - mysql_grants: neutron_db
+      - cmd: neutron_setup
+      - file: neutron_setup
+      - file: neutron_config
+
 openvswitch_setup:
   pkg.installed:
     - names:
@@ -182,9 +193,8 @@ salt://openstack/neutron/neutron-init.sh:
   cmd.script:
     - template: jinja
     - env:
-      - OS_IDENTITY_API_VERSION: "3"
-      - OS_TOKEN: {{pillar["admin_token"]}}
-      - OS_URL: http://controller:35357/v3
+      - OS_SERVICE_TOKEN: {{pillar["admin_token"]}}
+      - OS_SERVICE_ENDPOINT: http://controller:35357/v2.0
     - require:
       - cmd: openstackclient_setup
       - supervisord: keystone_service

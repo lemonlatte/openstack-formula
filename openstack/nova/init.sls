@@ -129,9 +129,8 @@ salt://openstack/nova/nova-init.sh:
   cmd.script:
     - template: jinja
     - env:
-      - OS_IDENTITY_API_VERSION: "3"
-      - OS_TOKEN: {{pillar["admin_token"]}}
-      - OS_URL: http://controller:35357/v3
+      - OS_SERVICE_TOKEN: {{pillar["admin_token"]}}
+      - OS_SERVICE_ENDPOINT: http://controller:35357/v2.0
     - require:
       - cmd: openstackclient_setup
       - supervisord: keystone_service
